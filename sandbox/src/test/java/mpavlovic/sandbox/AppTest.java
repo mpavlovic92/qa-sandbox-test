@@ -1,38 +1,46 @@
 package mpavlovic.sandbox;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import java.util.concurrent.TimeUnit;
 
-/**
- * Unit test for simple App.
- */
-public class AppTest 
-    extends TestCase
-{
-    /**
-     * Create the test case
-     *
-     * @param testName name of the test case
-     */
-    public AppTest( String testName )
-    {
-        super( testName );
-    }
+import org.apache.log4j.Logger;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 
-    /**
-     * @return the suite of tests being tested
-     */
-    public static Test suite()
-    {
-        return new TestSuite( AppTest.class );
-    }
+import action.BaseAction;
+import util.TestDrive;
 
-    /**
-     * Rigourous Test :-)
-     */
-    public void testApp()
-    {
-        assertTrue( true );
-    }
+public class AppTest {
+
+	WebDriver driver = null;
+	BaseAction action = null;
+	TestDrive testDrive = null;
+	static Logger logger = Logger.getLogger(AppTest.class);
+	
+	@Before
+	public void init() {
+		System.setProperty("webdriver.chrome.driver", "Driver\\chromedriver.exe");
+		driver = new ChromeDriver();
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+		action = new BaseAction(driver);
+		testDrive = new TestDrive(action);
+	}
+
+	@Test
+	public void CreateUseCasesTest() {
+		try {
+			testDrive.RunCreateUseCasesTest();
+		} catch (RuntimeException error) {
+			action.takeScreenshot();
+			throw (error);
+		}
+	}
+	
+	@After
+	public void tearDown() {
+		driver.close();
+	}
 }
