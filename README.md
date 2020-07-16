@@ -1,9 +1,9 @@
 # qa-sandbox-test
 
 ## Prerequisites:
-Chrome Version 83.0.4103.116
-Java 1.8 installed
-Maven installed
+- Chrome Version 83.0.4103.116
+- Java 1.8 installed
+- Maven installed
 
 ## About
 This project uses Selenium in Java with a Page Object Model (POM) design pattern to test the UI
